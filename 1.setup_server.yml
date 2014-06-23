@@ -21,10 +21,10 @@
     user: name=deploy password=$deploy_password shell=/bin/bash
 
   - name: Add authorized deploy key for Fred
-    authorized_key: user=deploy key="{{ lookup('file', 'fred.pub')}}"
+    authorized_key: user=deploy key="{{ lookup('file', 'key')}}"
 
   - name: Add github key
-    copy: src=github.pem dest=/home/deploy/.ssh/id_rsa mode=700 owner=deploy
+    copy: src=key_github dest=/home/deploy/.ssh/id_rsa mode=700 owner=deploy
 
   - name: Remove sudo group rights
     lineinfile: dest=/etc/sudoers regexp="^%sudo" state=absent
