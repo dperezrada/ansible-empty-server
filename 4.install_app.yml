@@ -1,0 +1,5 @@
+- hosts: newservers
+  vars:
+    nginx_config_name: imetricas
+  roles:
+    - install_project

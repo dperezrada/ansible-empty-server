@@ -1,0 +1,4 @@
+ansible-playbook -i hosts 1.setup_server.yml -u ubuntu --sudo
+ansible-playbook -i hosts 2.install_others.yml -u ubuntu --sudo
+ansible-playbook -i hosts 3.install_rbenv.yml -u deploy
+ansible-playbook -i hosts 4.install_app.yml -u ubuntu --sudo

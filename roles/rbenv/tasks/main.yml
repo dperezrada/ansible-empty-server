@@ -1,0 +1,82 @@
+#A merge from https://github.com/owainlewis/vagrant-ansible-rails/blob/master/playbooks/rbenv/roles/rbenv/tasks/main.yml AND https://github.com/leucos/ansible-rbenv-playbook/tree/master/roles/rbenv
+- name: Installs rbenv
+  git: repo=git://github.com/sstephenson/rbenv.git dest=/home/deploy/.rbenv
+  tags:
+    - ruby
+    - ruby:install
+    - install
+
+- name: Ensure fragments bash dir exists
+  file: dest=/home/deploy/.bash.d/ state=directory
+
+- name: Installs rbenv bash file
+  copy: src=50_rbenv.bash dest=/home/deploy/.bash.d/50_rbenv.bash mode=700 owner=deploy
+  tags:
+    - ruby
+    - ruby:install
+    - install
+
+- name: Source rbenv bash file in dot bashrc
+  lineinfile: dest=/home/deploy/.bash_profile regexp="rbenv" insertafter=EOF line="source ~/.bash.d/50_rbenv.bash" create=yes
+  tags:
+    - ruby
+    - ruby:install
+    - install
+
+- name: Creates plugin directory
+  file: path=/home/deploy/.rbenv/plugins/ owner=deploy group=deploy mode=0755 state=directory
+  tags:
+    - ruby
+    - ruby:install
+    - install
+
+- name: Installs ruby-build
+  git: repo=git://github.com/sstephenson/ruby-build.git dest=/home/deploy/.rbenv/plugins/ruby-build
+  tags:
+    - ruby
+    - ruby:install
+    - install
+
+- name: Adds .gemrc
+  copy: src=gemrc dest=/home/deploy/.gemrc owner=deploy group=deploy mode=0750
+  tags:
+    - ruby
+    - ruby:config
+    - config
+
+- name: rbenv | check ruby ruby_version installed
+  shell: /home/deploy/.rbenv/bin/rbenv versions | grep {{ruby_version}}
+  register: ruby_installed
+  ignore_errors: yes
+
+- name: Install version
+  shell: /home/deploy/.rbenv/bin/rbenv install {{ruby_version}}
+  when: ruby_installed|failed
+  tags:
+    - ruby
+    - ruby:config
+    - config
+
+- name: Sets global ruby version
+  shell: /home/deploy/.rbenv/bin/rbenv global {{ ruby_version }}
+  when: ruby_installed|failed
+  tags:
+    - ruby
+    - ruby:config
+    - config
+
+- name: rbenv | rehash
+  shell: /home/deploy/.rbenv/bin/rbenv rehash
+  when: ruby_installed|failed
+  tags:
+    - ruby
+    - ruby:config
+    - config
+
+- name: rbenv | install bundle
+  shell: /home/deploy/.rbenv/shims/gem install bundler
+  when: ruby_installed|failed
+  tags:
+    - ruby
+    - ruby:config
+    - config

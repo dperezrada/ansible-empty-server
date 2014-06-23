@@ -1,0 +1,34 @@
+# From: https://github.com/owainlewis/vagrant-ansible-rails/blob/master/playbooks/base/roles/base/tasks/main.yml
+- hosts: newservers
+  tasks:
+  # NODE JS
+  # ====================================================
+  - name: add node repo
+    apt_repository: repo='ppa:chris-lea/node.js' state=present
+
+  - name: update apt
+    command: sudo apt-get update
+
+  - name: install node packages
+    apt: name=nodejs state=latest update_cache=yes
+
+  # NGINX
+  # ====================================================
+
+  - name: add nginx latest version ppa
+    action: apt_repository repo=ppa:nginx/stable
+
+  - name: update apt
+    command: sudo apt-get update
+
+  - name: install nginx
+    action: apt name=nginx
+
+  - name: delete default vhost
+    action: file path=/etc/nginx/sites-enabled/default state=absent
+    notify:
+    - restart nginx
+
+  handlers:
+  - name: restart nginx
+    service: name=nginx pattern=/etc/init.d/nginx state=restarted enabled=yes

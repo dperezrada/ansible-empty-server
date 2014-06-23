@@ -1,0 +1,5 @@
+- hosts: newservers
+  vars:
+    ruby_version: 2.0.0-p481
+  roles:
+    - { role: rbenv, remote_user: deploy }

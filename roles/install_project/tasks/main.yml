@@ -1,0 +1,9 @@
+- name: Upload nginx config
+  copy: src=nginx.conf dest=/etc/nginx/nginx.conf mode=644
+
+- name: Upload nginx app
+  copy: src=app.conf dest=/etc/nginx/sites-available/{{ nginx_config_name }}.conf mode=644
+
+- name: link nginx config
+  file: src=/etc/nginx/sites-available/{{ nginx_config_name }}.conf dest=/etc/nginx/sites-enabled/{{ nginx_config_name }}.conf state=link
+  notify: restart nginx
