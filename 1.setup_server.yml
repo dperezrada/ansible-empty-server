@@ -14,8 +14,8 @@
   - name: Run apt-get upgrade
     apt: upgrade=yes
 
-  - name: Install fail2ban
-    apt: pkg=fail2ban state=present
+  #- name: Install fail2ban
+  #  apt: pkg=fail2ban state=present
 
   - name: Add deployment user
     user: name=deploy password=$deploy_password shell=/bin/bash
@@ -26,11 +26,11 @@
   - name: Add github key
     copy: src=key_github dest=/home/deploy/.ssh/id_rsa mode=700 owner=deploy
 
-  - name: Remove sudo group rights
-    lineinfile: dest=/etc/sudoers regexp="^%sudo" state=absent
+  #- name: Remove sudo group rights
+  #  lineinfile: dest=/etc/sudoers regexp="^%sudo" state=absent
 
-  - name: Add deploy user to sudoers
-    lineinfile: dest=/etc/sudoers regexp="deploy ALL" line="deploy ALL=(ALL) ALL" state=present
+  # - name: Add deploy user to sudoers
+  # lineinfile: dest=/etc/sudoers regexp="deploy ALL" line="deploy ALL=(ALL) ALL" state=present
 
   - name: Disallow root SSH access
     lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
