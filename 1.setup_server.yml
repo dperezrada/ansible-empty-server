@@ -52,6 +52,7 @@
       - git-core
       - git-svn
       - libcurl4-openssl-dev
+      - libmysqlclient-dev
       - libreadline6
       - libreadline6-dev
       - libreadline-dev
