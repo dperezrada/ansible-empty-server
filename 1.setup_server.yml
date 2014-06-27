@@ -2,8 +2,7 @@
 # Mainly from: https://github.com/phred/5minbootstrap/blob/master/bootstrap.yml
 - hosts: newservers
   vars:
-  - ubuntu_release: trusty
-  - logwatch_email: prueba@algunmail.com
+  - ubuntu_release: trusty #precise,trusty,etc
   - deploy_password: '$6$AC3bdCF7!$6CkgcL7DZ3Gg'
     # crypted password, generated on a Linux box using: echo 'import crypt,getpass; print crypt.crypt(getpass.getpass(), "$6$AC3bdCF7!")' | python -
 
