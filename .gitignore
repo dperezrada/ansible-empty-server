@@ -1,1 +1,3 @@
 .vagrant
+key.pub
+key_github.pem
