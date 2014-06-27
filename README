@@ -1,5 +1,5 @@
-cp ~/.ssh/id_rsa ./key
-cp ~/.ssh/github.pem ./key_github #Key for github pull
+cp ~/.ssh/id_rsa.pub ./key.pub
+cp ~/.ssh/github.pem ./key_github.pem #Key for github pull
 
 
 ansible-playbook -i hosts 1.setup_server.yml -u ubuntu --sudo

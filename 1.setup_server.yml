@@ -17,10 +17,10 @@
     user: name=deploy password=$deploy_password shell=/bin/bash
 
   - name: Add authorized deploy key for Deploy user
-    authorized_key: user=deploy key="{{ lookup('file', 'key')}}"
+    authorized_key: user=deploy key="{{ lookup('file', 'key.pub')}}"
 
   - name: Add github key
-    copy: src=key_github dest=/home/deploy/.ssh/id_rsa mode=700 owner=deploy
+    copy: src=key_github.pem dest=/home/deploy/.ssh/id_rsa mode=700 owner=deploy
 
   - name: Disallow root SSH access
     lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
